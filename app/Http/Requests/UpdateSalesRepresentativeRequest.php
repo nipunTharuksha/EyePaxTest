@@ -30,7 +30,7 @@ class UpdateSalesRepresentativeRequest extends FormRequest
                 Rule::unique('sales_representatives')
                     ->where(fn($query) => $query->where('id', '!=', $this->id)->where('sales_manager_id', request()->user()->id))
             ],
-            'telephone' => ['required',
+            'telephone' => ['required','min:9', 'max:20',
                 Rule::unique('sales_representatives')
                     ->where(fn($query) => $query->where('id', '!=', $this->id)->where('sales_manager_id', request()->user()->id))
             ],

@@ -29,7 +29,7 @@ class StoreSalesRepresentativeRequest extends FormRequest
             'email' => ['required',
                 Rule::unique('sales_representatives')
                     ->where(fn($query) => $query->where('sales_manager_id', request()->user()->id))],
-            'telephone' => ['required',
+            'telephone' => ['required','min:9','max:20',
                 Rule::unique('sales_representatives')
                     ->where(fn($query) => $query->where('sales_manager_id', request()->user()->id))],
             'joined_date' => ['required', 'date_format:Y-m-d', 'before_or_equal:now'],
