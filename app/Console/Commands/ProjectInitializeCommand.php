@@ -2,6 +2,7 @@
 
 namespace App\Console\Commands;
 
+use App\Models\User;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Artisan;
 
@@ -37,6 +38,16 @@ class ProjectInitializeCommand extends Command
         $this->newLine();
         Artisan::call('db:seed');
         $this->info(Artisan::output());
+
+        $salesManagers = User::all(['name', 'email'])->map(function ($user) {
+            $user['user_password'] = "password";
+            return $user;
+        })->toArray();
+
+        $this->table(
+            ['Name', 'Email', 'Manager Password'],
+            $salesManagers
+        );
 
         return Command::SUCCESS;
     }
