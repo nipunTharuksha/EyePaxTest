@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\WorkingRoute;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
@@ -14,6 +15,6 @@ class WorkingRouteSeeder extends Seeder
      */
     public function run()
     {
-        //
+        WorkingRoute::factory()->count(50)->create();
     }
 }
