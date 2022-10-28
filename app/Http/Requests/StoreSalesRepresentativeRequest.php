@@ -32,8 +32,8 @@ class StoreSalesRepresentativeRequest extends FormRequest
             'telephone' => ['required',
                 Rule::unique('sales_representatives')
                     ->where(fn($query) => $query->where('sales_manager_id', request()->user()->id))],
-            'joined_date' => ['required'],
-            'current_working_route_id' => ['required', 'exists:working_routes,id'],
+            'joined_date' => ['required', 'date_format:Y-m-d'],
+            'current_working_route_id' => ['required', 'exists:working_routes,id', 'before_or_equal:now'],
             'comment' => ['nullable']
         ];
     }
