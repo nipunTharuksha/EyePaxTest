@@ -12,7 +12,11 @@ const dateError = ref(null);
 const today = moment().format('YYYY-MM-DD');
 const joinedDate = ref(today);
 const props = defineProps({
-    currentRoutes: {type: Array, default: () => []}
+    currentRoutes: {type: Array, default: () => []},
+    errors: {
+        type: Object, default: () => {
+        }
+    },
 })
 
 const submit = (values) => {
@@ -56,6 +60,7 @@ const submit = (values) => {
                                            placeholder="Enter sales representative full name here "/>
 
                                     <ErrorMessage class="text-red-500" name="full_name"/>
+                                    <span  class="text-red-500" v-if="errors.full_name">{{ errors.full_name }}</span>
                                 </div>
                                 <div class="relative z-0 mb-2 w-full group">
                                     <label for="email"
@@ -68,6 +73,7 @@ const submit = (values) => {
                                     />
 
                                     <ErrorMessage class="text-red-500" name="email"/>
+                                    <span  class="text-red-500" v-if="errors.email">{{ errors.email }}</span>
                                 </div>
                                 <div class="grid md:grid-cols-2 md:gap-6">
                                     <div class=" mb-2 ">
@@ -81,6 +87,7 @@ const submit = (values) => {
                                                placeholder="Enter sales representative telephone here "/>
 
                                         <ErrorMessage class="text-red-500" name="telephone"/>
+                                        <span  class="text-red-500" v-if="errors.telephone">{{ errors.telephone }}</span>
                                     </div>
                                     <div class="mb-2">
                                         <label for="joined_date"
@@ -92,6 +99,7 @@ const submit = (values) => {
                                                class="border-gray-200  text-gray-900 text-sm rounded-lg  !outline-none  block w-full p-2.5 focus:ring-blue-500 focus:border-blue-500"
                                                placeholder="Enter sales representative telephone here " required=""/>
                                         <span class="text-red-500" v-if="dateError">{{ dateError }}</span>
+                                        <span  class="text-red-500" v-if="errors.joined_date">{{ errors.joined_date }}</span>
 
                                     </div>
                                 </div>
@@ -123,6 +131,7 @@ const submit = (values) => {
                                     </Field>
 
                                     <ErrorMessage class="text-red-500" name="current_working_route_id"/>
+                                    <span  class="text-red-500" v-if="errors.current_working_route_id">{{ errors.current_working_route_id }}</span>
                                 </div>
 
                                 <div class="relative z-0 mb-2 w-full group">
