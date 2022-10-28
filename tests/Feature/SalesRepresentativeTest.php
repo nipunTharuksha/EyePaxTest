@@ -2,6 +2,7 @@
 
 namespace Tests\Feature;
 
+use App\Models\SalesRepresentative;
 use App\Models\User;
 use App\Models\WorkingRoute;
 use Carbon\Carbon;
@@ -97,4 +98,37 @@ class SalesRepresentativeTest extends TestCase
 
         $response->assertStatus(302);
     }
+
+    /**
+     * @return void
+     */
+    public function test_at_trying_to_view_a_sales_representative_which_dosent_belongs_to_auth_sales_manager_return_404(): void
+    {
+        $salesManager = User::first();
+        $salesRepresentativeThatDosentBelongsToAuthManager = SalesRepresentative::where('sales_manager_id', '!=', $salesManager->id)
+            ->get()->first();
+        $response = $this->actingAs($salesManager)->withHeaders(['Accept' => 'application/json'])
+            ->get($this->route . '/' . $salesRepresentativeThatDosentBelongsToAuthManager->id . '/edit');
+
+        $response->assertStatus(404);
+    }
+
+    public function test_at_trying_to_update_a_sales_representative_which_dosent_belongs_to_auth_sales_manager_return_404(): void
+    {
+        $salesManager = User::first();
+        $salesRepresentativeThatDosentBelongsToAuthManager = SalesRepresentative::where('sales_manager_id', '!=', $salesManager->id)
+            ->get()->first();
+        $response = $this->actingAs($salesManager)->withHeaders(['Accept' => 'application/json'])
+            ->put($this->route . '/' . $salesRepresentativeThatDosentBelongsToAuthManager->id,
+                [
+                    'full_name' => fake()->firstName,
+                    'email' => fake()->email,
+                    'telephone' => fake()->phoneNumber,
+                    'joined_date' => Carbon::now()->format('Y-m-d'),
+                    'current_working_route_id' => WorkingRoute::first()->id,
+                ]);
+
+        $response->assertStatus(404);
+    }
+
 }
