@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class UpdateSalesRepresentativeRequest extends FormRequest
 {
@@ -13,7 +14,7 @@ class UpdateSalesRepresentativeRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -24,7 +25,18 @@ class UpdateSalesRepresentativeRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'full_name' => 'required',
+            'email' => ['required',
+                Rule::unique('sales_representatives')
+                    ->where(fn($query) => $query->where('id', '!=', $this->id)->where('sales_manager_id', request()->user()->id))
+            ],
+            'telephone' => ['required',
+                Rule::unique('sales_representatives')
+                    ->where(fn($query) => $query->where('id', '!=', $this->id)->where('sales_manager_id', request()->user()->id))
+            ],
+            'joined_date' => ['required'],
+            'current_working_route_id' => ['required', 'exists:working_routes,id'],
+            'comment' => ['nullable']
         ];
     }
 }

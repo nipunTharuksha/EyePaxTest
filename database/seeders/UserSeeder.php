@@ -21,7 +21,7 @@ class UserSeeder extends Seeder
                 $email = 'parker@example.com';
                 $name = "Parker";
             } else {
-                $email = "salesmanager{$i}@gmail.com";
+                $email = "salesmanager{$i}@example.com";
                 $name = "Sales Manager {$i}";
             }
             User::updateOrCreate(
