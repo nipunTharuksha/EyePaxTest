@@ -1,6 +1,9 @@
 <?php
 
+use App\Http\Controllers\SalesRepresentativeController;
+use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
+use Inertia\Inertia;
 
 /*
 |--------------------------------------------------------------------------
@@ -13,6 +16,22 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
+
+Route::get('/login', function () {
+    return Inertia::render('Welcome', [
+        'canLogin' => Route::has('login'),
+        'canRegister' => Route::has('register'),
+        'laravelVersion' => Application::VERSION,
+        'phpVersion' => PHP_VERSION,
+    ]);
+});
+
+Route::prefix('dashboard')->middleware(['auth', 'verified'])->group(function () {
+    Route::resource('sales-representatives', SalesRepresentativeController::class);
+});
+
+require __DIR__.'/auth.php';
+
+Route::fallback(function () {
+  return redirect()->route('login');
 });
