@@ -22,6 +22,7 @@
     "dependencies": {
         "@vee-validate/i18n": "^4.7.1",
         "@vee-validate/rules": "^4.7.1",
+        "moment": "^2.29.4",
         "vee-validate": "^4.7.1"
     }
 }

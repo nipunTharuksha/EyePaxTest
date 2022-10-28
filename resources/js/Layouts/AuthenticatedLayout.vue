@@ -27,7 +27,7 @@ const showingNavigationDropdown = ref(false);
 
                             <!-- Navigation Links -->
                             <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
-                                <NavLink :href="route('sales-representatives.index')" :active="route().current('sales-representatives.index')">
+                                <NavLink :href="route('sales-representatives.index')" :active="route().current().includes('sales-representatives.')">
                                     Dashboard
                                 </NavLink>
                             </div>
@@ -73,7 +73,7 @@ const showingNavigationDropdown = ref(false);
                 <!-- Responsive Navigation Menu -->
                 <div :class="{'block': showingNavigationDropdown, 'hidden': ! showingNavigationDropdown}" class="sm:hidden">
                     <div class="pt-2 pb-3 space-y-1">
-                        <ResponsiveNavLink :href="route('sales-representatives.index')" :active="route().current('sales-representatives.index')">
+                        <ResponsiveNavLink :href="route('sales-representatives.index')" :active="route().current().includes('sales-representatives.')">
                             Dashboard
                         </ResponsiveNavLink>
                     </div>
