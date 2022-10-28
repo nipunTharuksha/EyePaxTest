@@ -32,7 +32,10 @@ class SalesRepresentativeTest extends TestCase
         $response->assertStatus(302)->assertRedirect('login');
     }
 
-    public function test_does_it_return_validation_errors_when_creating_a_sales_representative_without_payload()
+    /**
+     * @return void
+     */
+    public function test_does_it_return_validation_errors_when_creating_a_sales_representative_without_payload(): void
     {
         //https://stackoverflow.com/questions/57036898/laravel-5-8-nova-login-test-session-is-missing-expected-key-errors
         $salesManager = User::first();
@@ -41,7 +44,10 @@ class SalesRepresentativeTest extends TestCase
             ->assertStatus(422);
     }
 
-    public function test_that_passing_incorrect_date_format_to_joined_date_return_422()
+    /**
+     * @return void
+     */
+    public function test_that_passing_incorrect_date_format_to_joined_date_return_422(): void
     {
         $salesManager = User::first();
         $response = $this->actingAs($salesManager)->withHeaders(['Accept' => 'application/json'])->post($this->route, [
@@ -56,7 +62,10 @@ class SalesRepresentativeTest extends TestCase
             ->assertStatus(422);
     }
 
-    public function test_that_passing_date__after_today_to_joined_date_return_422()
+    /**
+     * @return void
+     */
+    public function test_that_passing_date__after_today_to_joined_date_return_422(): void
     {
         $salesManager = User::first();
         $response = $this->actingAs($salesManager)->withHeaders(['Accept' => 'application/json'])->post($this->route, [
@@ -72,7 +81,10 @@ class SalesRepresentativeTest extends TestCase
     }
 
 
-    public function test_after_creating_sales_representative_navigate_to_sales_representative_index()
+    /**
+     * @return void
+     */
+    public function test_after_creating_sales_representative_navigate_to_sales_representative_index(): void
     {
         $salesManager = User::first();
         $response = $this->actingAs($salesManager)->withHeaders(['Accept' => 'application/json'])->post($this->route, [

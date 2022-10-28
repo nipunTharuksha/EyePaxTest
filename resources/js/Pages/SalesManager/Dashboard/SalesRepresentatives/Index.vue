@@ -1,9 +1,9 @@
 <script setup>
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import {Head} from '@inertiajs/inertia-vue3';
-/*import Pagination from '@/Components/Pagination.vue'*/
+import Pagination from '@/Components/Pagination.vue'
 import {Inertia} from "@inertiajs/inertia";
-/*import ShowModal from './modal/ShowModal.vue'*/
+import ShowModal from './modal/ShowModal.vue'
 import {ref} from "vue";
 
 const props = defineProps({
@@ -23,7 +23,7 @@ const deleteThisRepresentative = (reperesentativeId) => {
 
 <template>
     <Head title="Dashboard"/>
-<!--    <ShowModal v-if="show" @close="show=false" :salesRepresentative="salesRepresentativeToBePreview"/>-->
+    <ShowModal v-if="show" @close="show=false" :salesRepresentative="salesRepresentativeToBePreview"/>
     <AuthenticatedLayout>
         <template #header>
             <h2 class="font-semibold text-xl text-gray-800 leading-tight">
@@ -102,7 +102,9 @@ const deleteThisRepresentative = (reperesentativeId) => {
                                         {{ salesRepresentative?.current_working_route?.name }}
                                     </td>
                                     <td class="py-4 px-6 overflow-hidden">
-                                        {{ salesRepresentative.comment ? salesRepresentative.comment.substring(0, 100) : ' N/A' }}
+                                        {{
+                                            salesRepresentative.comment ? salesRepresentative.comment.substring(0, 100) : ' N/A'
+                                        }}
                                     </td>
 
                                     <td class="py-4 px-6">
@@ -123,12 +125,10 @@ const deleteThisRepresentative = (reperesentativeId) => {
 
                                     </td>
                                 </tr>
-
-
                                 </tbody>
                             </table>
                         </div>
-<!--                        <pagination class="mt-6" :links="salesRepresentatives.links"/>-->
+                        <pagination class="mt-6" :links="salesRepresentatives.links"/>
                     </div>
                 </div>
             </div>
