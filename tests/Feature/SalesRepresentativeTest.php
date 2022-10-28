@@ -3,6 +3,8 @@
 namespace Tests\Feature;
 
 use App\Models\User;
+use App\Models\WorkingRoute;
+use Carbon\Carbon;
 use Tests\TestCase;
 
 class SalesRepresentativeTest extends TestCase
@@ -37,5 +39,50 @@ class SalesRepresentativeTest extends TestCase
         $response = $this->actingAs($salesManager)->withHeaders(['Accept' => 'application/json'])->post($this->route);
         $response->assertJsonValidationErrors(['email', 'full_name', 'telephone', 'joined_date', 'current_working_route_id'])
             ->assertStatus(422);
+    }
+
+    public function test_that_passing_incorrect_date_format_to_joined_date_return_422()
+    {
+        $salesManager = User::first();
+        $response = $this->actingAs($salesManager)->withHeaders(['Accept' => 'application/json'])->post($this->route, [
+            'full_name' => fake()->firstName,
+            'email' => fake()->email,
+            'telephone' => fake()->phoneNumber,
+            'joined_date' => '11-11-11',
+            'current_working_route_id' => WorkingRoute::first()->id,
+        ]);
+
+        $response->assertJsonValidationErrors(['joined_date' => 'The joined date does not match the format Y-m-d.'])
+            ->assertStatus(422);
+    }
+
+    public function test_that_passing_date__after_today_to_joined_date_return_422()
+    {
+        $salesManager = User::first();
+        $response = $this->actingAs($salesManager)->withHeaders(['Accept' => 'application/json'])->post($this->route, [
+            'full_name' => fake()->firstName,
+            'email' => fake()->email,
+            'telephone' => fake()->phoneNumber,
+            'joined_date' => Carbon::now()->addDay()->format('Y-m-d'),
+            'current_working_route_id' => WorkingRoute::first()->id,
+        ]);
+
+        $response->assertJsonValidationErrors(['joined_date' => 'The joined date must be a date before or equal to now.'])
+            ->assertStatus(422);
+    }
+
+
+    public function test_after_creating_sales_representative_navigate_to_sales_representative_index()
+    {
+        $salesManager = User::first();
+        $response = $this->actingAs($salesManager)->withHeaders(['Accept' => 'application/json'])->post($this->route, [
+            'full_name' => fake()->firstName,
+            'email' => fake()->email,
+            'telephone' => fake()->phoneNumber,
+            'joined_date' => Carbon::now()->format('Y-m-d'),
+            'current_working_route_id' => WorkingRoute::first()->id,
+        ]);
+
+        $response->assertStatus(302);
     }
 }

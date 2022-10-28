@@ -102,7 +102,7 @@ const deleteThisRepresentative = (reperesentativeId) => {
                                         {{ salesRepresentative?.current_working_route?.name }}
                                     </td>
                                     <td class="py-4 px-6 overflow-hidden">
-                                        {{ salesRepresentative.comment.substring(0, 100) ?? ' N/A' }}
+                                        {{ salesRepresentative.comment ? salesRepresentative.comment.substring(0, 100) : ' N/A' }}
                                     </td>
 
                                     <td class="py-4 px-6">
