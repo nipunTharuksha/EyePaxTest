@@ -1,7 +1,4 @@
 
-# eyepax php test- Nipun Tharuksha (nipunth7@gmail.com)
-
-
 
 ## Run Locally
 
